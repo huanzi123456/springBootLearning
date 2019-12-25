@@ -130,8 +130,136 @@ https://www.wiresharkbook.com
             协议Proto :  ether ,ip , tcp ,udp ,http ,ftp 
             逻辑运算符:  &&   ||  ! 
             
+            src host 192.168.0.229 && dst port 80 抓取源地址为192.168.0.229 目的为80端口的流量
+            host 192.168.0.229 || host 192.168.0.119 抓取229 和 119的流量
+            !broadcast  不要抓取广播包
+        
+        实验演示:
+            过滤Mac地址:    (cmd 以太网适配器  物理地址)
+                            ether host 00:88:ca:86:f8:0d
+                            ether src host  00:88:ca:86:f8:0d
+                            ether dst host 00:88:ca:86:f8:0d
+            过滤ip地址案例    
+                            host 192.168.0.229
+                            src host 192.168.0.119
+                            dst host 192.168.0.119
+            过滤端口案例:
+                            port 80
+                            ! port 80
+                            dst port 80
+                            src port 80
+            过滤协议案例:
+                            icmp
+                            arp
+            综合过滤案例:
+                            src host 192.168.0.107 && dst port 80  
+                              
+    显示过滤器display filter ( ) :
+            
+            比较操作符:
+                    ==
+                    !=
+                    >
+                    <
+                    >=
+                    <=  
+            逻辑操作符:
+                    and 两个条件被满足
+                    or  其中一个条件被满足
+                    xor 有且仅有一个条件被满足
+                    not 没有条件被满足 
+            ip地址:
+                    ip.addr  ip.src  ip.dst
+                    
+                    案例:
+                        ip.addr == 192.168.0.229
+                        ip.src == 192.168.0.229
+                        ip.dst==192.168.0.229
+                        
+            端口过滤:
+                    tcp.port  
+                    tcp.srcport  
+                    tcp.dstport  
+                    tcp.flag.syn   三次握手包
+                    tcp.flag.ack
+            协议过滤:
+                    arp
+                    ip
+                    icmp
+                    udp
+                    tcp
+                    bootp
+                    dns
+
+##高级功能:
     
-    显示过滤器:
+1.数据流追踪:
+    
+    功能:将tcp,udp,ssl等数据流进行重组并完整呈现出来 tcp流,udp流,ssl流
+        流追踪
+        客户端访问
+        refer:http://www.pinginglab.net/
+
+2.专家信息说明:
+    
+    对数据包中特定状态进行警告说明:
+                错误   警告   注意   对话
+                警告:数据包重置  ,  
+                note: 重复的ack包,tcp-keep alive稳定性
+
+3.统计摘要说明:
+     
+     图标统计功能:(对抓取的数据包整体的说明,Encapsulation Ethernet)
+                    显示过滤器
+
+4.协议分层统计(统计通信流量中不同协议占用的百分比):
+
+    全网流量有直观的了解,到底整个网络哪些流量占用最多已经占比
+    statistics-->Hierarchy   统计--->分层统计
+    以太网
+        ipv4:
+            udp:
+                dns
+                bootstrap Protocol
+                netBios name Service
+                Hypertext Transfer Protocol
+                oicq
+            tcp
+                http:
+                malfored Packet 错误数据包
+                ssl
+            internet Group Management protocol(icmp)
+        ipv6:
+        arp:
+5.网络节点和会话统计功能:
+    
+    conversations   endpoints
+    网络会话:统计通讯会话之间接收和发送的数据包和字节数
+    (通过该工具可以找出网络中哪个会话最占用带宽)-->进一步做网络策略
+        ipv4
+    网络节点:
+        
+6.数据包长度
+    
+    统计数据包长度 (package length) 安全攻击,碎片攻击分析
+    
+7.图标分析
+    
+    io图表 io graph
+        
+    流图表 flow graph
+    
+    
+    
+    
+                      
+     
+                
+                
+    
+    
+    
+                    
 
     
      
